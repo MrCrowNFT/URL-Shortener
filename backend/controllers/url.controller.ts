@@ -6,7 +6,10 @@ interface PgError extends Error {
   code?: string;
 }
 
-export const createPair = async (req: Request, res: Response):Promise<void> => {
+export const createPair = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const { originalUrl, shortUrl } = req.body;
     if (!originalUrl || !shortUrl) {
@@ -25,6 +28,8 @@ export const createPair = async (req: Request, res: Response):Promise<void> => {
         message: "Invalid original URL format",
       });
     }
+
+    //Here i need a helper function to generate a random string
 
     const query = `
         INSERT INTO urls (original_url, short_url)
@@ -53,6 +58,35 @@ export const createPair = async (req: Request, res: Response):Promise<void> => {
       });
     }
 
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+export const getOriginalUrl = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { shortUrl } = req.body;
+    if (!shortUrl) {
+      res.status(400).json({
+        success: false,
+        message: "Short URL are required",
+      });
+    }
+    const query = `
+      SELECT original_url FROM urls
+      WHERE short_url = $1;
+      `;
+    const values = [shortUrl];
+    const result = await pool.query(query, values);
+    res.status(201).json({
+      success: true,
+      message: "Url succesfully retrived",
+      data: result.rows[0]?.original_url,
+    });
+  } catch (error) {
+    console.error("Error retriving URL:", error);
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
