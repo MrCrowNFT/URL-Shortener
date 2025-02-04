@@ -6,11 +6,11 @@ interface PgError extends Error {
   code?: string;
 }
 
-export const createPair = async (req: Request, res: Response) => {
+export const createPair = async (req: Request, res: Response):Promise<void> => {
   try {
     const { originalUrl, shortUrl } = req.body;
     if (!originalUrl || !shortUrl) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         message: "Original URL and short URL are required",
       });
@@ -20,7 +20,7 @@ export const createPair = async (req: Request, res: Response) => {
     try {
       new URL(originalUrl);
     } catch {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         message: "Invalid original URL format",
       });
@@ -47,7 +47,7 @@ export const createPair = async (req: Request, res: Response) => {
     //here we handle dups
     const pgError = error as PgError;
     if (pgError.code === "23505") {
-      return res.status(409).json({
+      res.status(409).json({
         success: false,
         message: "Short URL already exists",
       });
