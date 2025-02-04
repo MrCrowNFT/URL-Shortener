@@ -1,6 +1,11 @@
 import pool from "../config/db";
 import { Request, Response } from "express";
 
+//we'll use this interface to handle the dups error as for it to be any is not safe
+interface PgError extends Error {
+  code?: string;
+}
+
 export const createPair = async (req: Request, res: Response) => {
   try {
     const { originalUrl, shortUrl } = req.body;
@@ -39,13 +44,14 @@ export const createPair = async (req: Request, res: Response) => {
   } catch (error) {
     console.error("Error inserting URL pair:", error);
 
-    // handle unique constraint (for shortent dups)
-    if ((error as any).code === "23505") {
-        return res.status(409).json({
-          success: false,
-          message: "Short URL already exists",
-        });
-      }
+    //here we handle dups
+    const pgError = error as PgError;
+    if (pgError.code === "23505") {
+      return res.status(409).json({
+        success: false,
+        message: "Short URL already exists",
+      });
+    }
 
     res.status(500).json({ success: false, message: "Server error" });
   }
