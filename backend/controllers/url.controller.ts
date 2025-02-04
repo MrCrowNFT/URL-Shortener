@@ -39,13 +39,13 @@ export const createPair = async (req: Request, res: Response) => {
   } catch (error) {
     console.error("Error inserting URL pair:", error);
 
-    // Handle unique constraint violation (duplicate short URL)
-    if (error.code === "23505") {
-      return res.status(409).json({
-        success: false,
-        message: "Short URL already exists",
-      });
-    }
+    // handle unique constraint (for shortent dups)
+    if ((error as any).code === "23505") {
+        return res.status(409).json({
+          success: false,
+          message: "Short URL already exists",
+        });
+      }
 
     res.status(500).json({ success: false, message: "Server error" });
   }
