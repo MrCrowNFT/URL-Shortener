@@ -5,12 +5,20 @@ export const createPair = async (req: Request, res: Response) => {
   try {
     const { originalUrl, shortUrl } = req.body;
     if (!originalUrl || !shortUrl) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: "Original URL and short URL are required",
-        });
+      return res.status(400).json({
+        success: false,
+        message: "Original URL and short URL are required",
+      });
+    }
+
+    // URL validation
+    try {
+      new URL(originalUrl);
+    } catch {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid original URL format",
+      });
     }
 
     const query = `
@@ -28,16 +36,16 @@ export const createPair = async (req: Request, res: Response) => {
       message: "Pair successfully created",
       data: result.rows[0],
     });
-  } catch (error){
+  } catch (error) {
     console.error("Error inserting URL pair:", error);
 
     // Handle unique constraint violation (duplicate short URL)
     if (error.code === "23505") {
-        return res.status(409).json({
-          success: false,
-          message: "Short URL already exists",
-        });
-      }
+      return res.status(409).json({
+        success: false,
+        message: "Short URL already exists",
+      });
+    }
 
     res.status(500).json({ success: false, message: "Server error" });
   }
