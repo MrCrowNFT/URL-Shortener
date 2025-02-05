@@ -71,8 +71,9 @@ export const getOriginalUrl = async (
     if (!shortUrl) {
       res.status(400).json({
         success: false,
-        message: "Short URL are required",
+        message: "Short URL is required",
       });
+      return;
     }
     const query = `
       SELECT original_url FROM urls
@@ -80,13 +81,22 @@ export const getOriginalUrl = async (
       `;
     const values = [shortUrl];
     const result = await pool.query(query, values);
-    res.status(201).json({
+
+    if (result.rows.length === 0) {
+      res.status(404).json({
+        success: false,
+        message: "Short URL not found",
+      });
+      return;
+    }
+
+    res.status(200).json({
       success: true,
-      message: "Url succesfully retrived",
+      message: "URL successfully retrieved",
       data: result.rows[0]?.original_url,
     });
   } catch (error) {
-    console.error("Error retriving URL:", error);
+    console.error("Error retrieving URL:", error);
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
