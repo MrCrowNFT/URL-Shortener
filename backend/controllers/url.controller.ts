@@ -11,7 +11,11 @@ export const createPair = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { originalUrl, shortUrl } = req.body;
+    const { originalUrl } = req.body;
+
+    //get short url from helper function
+    const shortUrl = getShortUrl();
+
     if (!originalUrl || !shortUrl) {
       res.status(400).json({
         success: false,
@@ -93,10 +97,24 @@ export const getOriginalUrl = async (
     res.status(200).json({
       success: true,
       message: "URL successfully retrieved",
-      data: result.rows[0]?.original_url,
+      data: result.rows[0].original_url,
     });
   } catch (error) {
     console.error("Error retrieving URL:", error);
     res.status(500).json({ success: false, message: "Server error" });
   }
+};
+
+export const getShortUrl = (): string => {
+  const CHARSET =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  const LENGTH = 7;
+  let shortUrl = "";
+
+  for (let i = 0; i < LENGTH; i++) {
+    const randomIndex = Math.floor(Math.random() * CHARSET.length);
+    shortUrl += CHARSET[randomIndex];
+  }
+
+  return shortUrl;
 };
