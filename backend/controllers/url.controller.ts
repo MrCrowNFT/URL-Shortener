@@ -21,6 +21,7 @@ export const createPair = async (
         success: false,
         message: "Original URL and short URL are required",
       });
+      return;
     }
 
     // URL validation
@@ -31,6 +32,7 @@ export const createPair = async (
         success: false,
         message: "Invalid original URL format",
       });
+      return;
     }
 
     //Here i need a helper function to generate a random string
@@ -60,6 +62,7 @@ export const createPair = async (
         success: false,
         message: "Short URL already exists",
       });
+      return;
     }
 
     res.status(500).json({ success: false, message: "Server error" });
