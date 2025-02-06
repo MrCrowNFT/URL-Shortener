@@ -1,4 +1,6 @@
-
+import facebook from "../assets/facebook.svg";
+import instagram from "../assets/instagram.svg";
+import twitter from "../assets/twitter.svg";
 
 const HomePage = (()=>{
     return (
@@ -8,9 +10,9 @@ const HomePage = (()=>{
             <label>Paste URL:</label>
             <input type="url" />
             <div>
-                <img></img>
-                <img></img>
-                <img></img>
+                <img src={facebook}/>
+                <img src={instagram}/>
+                <img src={twitter}/>
             </div>
         </div>
     </div>
