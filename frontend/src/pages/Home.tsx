@@ -1,12 +1,13 @@
 import facebook from "../assets/facebook.svg";
 import instagram from "../assets/instagram.svg";
 import twitter from "../assets/twitter.svg";
+import logo from "../assets/logo.svg";
 
 const HomePage = () => {
   return (
     <div className="flex items-center justify-center">
       <div className="flex flex-col border items-center justify-center border-gray-400 rounded-lg w-140 h-220">
-        <img />
+        <img src={logo} alt="logo"/>
         <div className="flex items-center justify-center gap-0.5">
           <label>Paste URL:  </label>
           <form>
