@@ -33,13 +33,13 @@ const HomePage = () => {
         <div className="flex flex-col items-center justify-center w-full h-32">
           <div className="flex items-center justify-center gap-3">
             <a href="" target="_blank" rel="noreferrer">
-              <img src={facebook} alt="facebook" className="h-10 w-10" />
+              <img src={facebook} alt="facebook" className="h-10 w-10 hover:scale-110 transition-transform duration-300" />
             </a>
             <a href="" target="_blank" rel="noreferrer">
-              <img src={instagram} alt="instagram" className="h-10 w-10" />
+              <img src={instagram} alt="instagram" className="h-10 w-10 hover:scale-110 transition-transform duration-300" />
             </a>
             <a href="" target="_blank" rel="noreferrer">
-              <img src={twitter} alt="twitter" className="h-10 w-10" />
+              <img src={twitter} alt="twitter" className="h-10 w-10 hover:scale-110 transition-transform duration-300" />
             </a>
           </div>
           <p className="font-mono font-bold text-white mt-3">Follow us!</p>
