@@ -8,7 +8,7 @@ app.use(express.json());
 dotenv.config();
 const PORT = process.env.PORT || 5500;
 
-app.use("/pair", urlRouter);
+app.use("/link", urlRouter);
 
 
 app.listen(PORT, () => {
