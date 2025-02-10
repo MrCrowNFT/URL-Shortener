@@ -1,7 +1,5 @@
-import facebook from "../assets/facebook.svg";
-import instagram from "../assets/instagram.svg";
-import twitter from "../assets/twitter.svg";
 import logo from "../assets/logo.svg";
+import SocialLinks from "../components/SocialLinks";
 
 const HomePage = () => {
   return (
@@ -29,21 +27,7 @@ const HomePage = () => {
         </form>
 
         <hr className=" w-full my-8 border-t border-gray-400 mt-35" />
-
-        <div className="flex flex-col items-center justify-center w-full h-32">
-          <div className="flex items-center justify-center gap-4">
-            <a href="" target="_blank" rel="noreferrer" className="hover:scale-110 transition-transform duration-300">
-              <img src={facebook} alt="facebook" className="h-12 w-12 " />
-            </a>
-            <a href="" target="_blank" rel="noreferrer" className="hover:scale-110 transition-transform duration-300">
-              <img src={instagram} alt="instagram" className="h-12 w-12 " />
-            </a>
-            <a href="" target="_blank" rel="noreferrer" className="hover:scale-110 transition-transform duration-300">
-              <img src={twitter} alt="twitter" className="h-12 w-12" />
-            </a>
-          </div>
-          <p className="font-mono font-bold text-white text-lg mt-3">Follow us!</p>
-        </div>
+        <SocialLinks/>
       </div>
     </div>
   );
