@@ -9,17 +9,15 @@
   },
   "devDependencies": {
     "@babel/core": "^7.26.8",
-    "@babel/preset-env": "^7.26.8",
-    "@babel/preset-react": "^7.26.3",
-    "@babel/preset-typescript": "^7.26.0",
     "@jest/globals": "^29.7.0",
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.2.0",
     "@types/express": "^5.0.0",
+    "@types/jest": "^29.5.14",
     "@types/node": "^22.13.0",
     "@types/pg": "^8.11.11",
-    "babel-jest": "^29.7.0",
+    "@types/supertest": "^6.0.2",
     "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "supertest": "^7.0.0",
     "ts-jest": "^29.2.5",
     "typescript": "^5.7.3"
   },
@@ -28,7 +26,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node backend/index.js",
+    "dev": "node backend/server",
     "test": "jest"
   },
   "keywords": [],
