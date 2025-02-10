@@ -1,14 +1,18 @@
 import express, { Request, Response } from "express";
 import urlRouter from "./routes/url.routes";
-import dotenv from "dotenv";
 
 const app = express();
 app.use(express.json());
 
+app.use("/link", urlRouter);
+
+export default app
+
+
+import dotenv from "dotenv";
+
 dotenv.config();
 const PORT = process.env.PORT || 5500;
-
-app.use("/link", urlRouter);
 
 
 app.listen(PORT, () => {
