@@ -63,7 +63,7 @@ const ShortenForm = () => {
             rel="noopener noreferrer"
             className="text-green-400 underline"
           >
-            {shortUrl}
+            {`http://localhost:5500/link/${shortUrl}`}
           </a>
         </div>
       )}
