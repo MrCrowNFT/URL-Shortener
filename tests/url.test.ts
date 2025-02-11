@@ -30,4 +30,13 @@ describe("URL Shortener API", () => {
       expect.arrayContaining(["https://example.com", expect.any(String)]) 
     );
   });
+  it("should return 400 if originalUrl is missing", async () => {
+    const response = await request(app)
+      .post("/link/shorten")
+      .send({}); // no url provided
+
+    expect(response.status).toBe(400);
+    expect(response.body.success).toBe(false);
+    expect(response.body.message).toBe("Original URL and short URL are required");
+  });
 });
