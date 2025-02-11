@@ -2,14 +2,18 @@ import request from "supertest";
 import app from "../backend/app";
 import pool from "../backend/config/db";
 
-// Mock the pool object
+// mock the pool object
 jest.mock("../backend/config/db", () => ({
   query: jest.fn(),
 }));
 
+interface PgError extends Error {
+  code?: string;
+}
+
 describe("URL Shortener API", () => {
   afterEach(() => {
-    jest.clearAllMocks(); // Reset mocks after each test
+    jest.clearAllMocks(); // reset mocks after each test
   });
   it("should create a short URL", async () => {
 
@@ -47,5 +51,22 @@ describe("URL Shortener API", () => {
     expect(response.status).toBe(400);
     expect(response.body.success).toBe(false);
     expect(response.body.message).toBe("Invalid URL format");
+  });
+  it("should return 409 if short URL already exists", async () => {
+    // mock the pool.query method to simulate a duplicate short URL error
+    const pgError = new Error("Duplicate short URL") as PgError;
+    pgError.code = "23505"; // postgres error code for unique violation
+
+    (pool.query as jest.Mock).mockRejectedValueOnce(pgError);
+
+    const response = await request(app)
+      .post("/link/shorten")
+      .send({
+        originalUrl: "https://example.com",
+      });
+
+    expect(response.status).toBe(409);
+    expect(response.body.success).toBe(false);
+    expect(response.body.message).toBe("Short URL already exists");
   });
 });
