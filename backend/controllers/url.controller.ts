@@ -30,7 +30,7 @@ export const createPair = async (
     } catch {
       res.status(400).json({
         success: false,
-        message: "Invalid original URL format",
+        message: "Invalid URL format",
       });
       return;
     }

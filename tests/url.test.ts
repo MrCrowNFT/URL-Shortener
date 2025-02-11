@@ -39,4 +39,13 @@ describe("URL Shortener API", () => {
     expect(response.body.success).toBe(false);
     expect(response.body.message).toBe("Original URL and short URL are required");
   });
+  it("should return 400 if originalUrl is invalid", async () => {
+    const response = await request(app)
+      .post("/link/shorten")
+      .send({ originalUrl: "invalid-url" }); // Invalid URL
+
+    expect(response.status).toBe(400);
+    expect(response.body.success).toBe(false);
+    expect(response.body.message).toBe("Invalid URL format");
+  });
 });
