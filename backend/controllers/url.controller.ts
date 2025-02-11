@@ -35,8 +35,6 @@ export const createPair = async (
       return;
     }
 
-    //Here i need a helper function to generate a random string
-
     const query = `
         INSERT INTO urls (original_url, short_url)
         VALUES ($1, $2)
@@ -44,8 +42,8 @@ export const createPair = async (
     `;
 
     const values = [originalUrl, shortUrl];
-
     const result = await pool.query(query, values);
+
     // Return the inserted row so we can return it to the user
     res.status(201).json({
       success: true,
@@ -74,7 +72,8 @@ export const getOriginalUrl = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { shortUrl } = req.body;
+    const shortUrl = req.params.shortUrl;
+    
     if (!shortUrl) {
       res.status(400).json({
         success: false,
@@ -97,11 +96,8 @@ export const getOriginalUrl = async (
       return;
     }
 
-    res.status(200).json({
-      success: true,
-      message: "URL successfully retrieved",
-      data: result.rows[0].original_url,
-    });
+    // Redirect to the original URL
+    res.redirect(result.rows[0].original_url);
   } catch (error) {
     console.error("Error retrieving URL:", error);
     res.status(500).json({ success: false, message: "Server error" });
