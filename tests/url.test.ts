@@ -96,4 +96,14 @@ describe("Get original URL", () => {
     expect(response.status).toBe(302); // 302 is the status code for redirect
     expect(response.header.location).toBe("https://example.com");
   });
+
+  it("should return 404 if the short URL does not exist", async () => {
+    (pool.query as jest.Mock).mockResolvedValueOnce({ rows: [] });
+
+    const response = await request(app).get("/link/nonexistent");
+
+    expect(response.status).toBe(404);
+    expect(response.body.success).toBe(false);
+    expect(response.body.message).toBe("Short URL not found");
+  });
 });
