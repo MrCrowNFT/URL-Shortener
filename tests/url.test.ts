@@ -16,7 +16,6 @@ describe("URL Shortener API", () => {
     jest.clearAllMocks(); // reset mocks after each test
   });
   it("should create a short URL", async () => {
-
     (pool.query as jest.Mock).mockResolvedValueOnce({
       rows: [{ original_url: "https://example.com", short_url: "abc123" }],
     });
@@ -31,17 +30,17 @@ describe("URL Shortener API", () => {
 
     expect(pool.query).toHaveBeenCalledWith(
       expect.stringContaining("INSERT INTO urls"),
-      expect.arrayContaining(["https://example.com", expect.any(String)]) 
+      expect.arrayContaining(["https://example.com", expect.any(String)])
     );
   });
   it("should return 400 if originalUrl is missing", async () => {
-    const response = await request(app)
-      .post("/link/shorten")
-      .send({}); // no url provided
+    const response = await request(app).post("/link/shorten").send({}); // no url provided
 
     expect(response.status).toBe(400);
     expect(response.body.success).toBe(false);
-    expect(response.body.message).toBe("Original URL and short URL are required");
+    expect(response.body.message).toBe(
+      "Original URL and short URL are required"
+    );
   });
   it("should return 400 if originalUrl is invalid", async () => {
     const response = await request(app)
@@ -59,27 +58,42 @@ describe("URL Shortener API", () => {
 
     (pool.query as jest.Mock).mockRejectedValueOnce(pgError);
 
-    const response = await request(app)
-      .post("/link/shorten")
-      .send({
-        originalUrl: "https://example.com",
-      });
+    const response = await request(app).post("/link/shorten").send({
+      originalUrl: "https://example.com",
+    });
 
     expect(response.status).toBe(409);
     expect(response.body.success).toBe(false);
     expect(response.body.message).toBe("Short URL already exists");
   });
   it("should return 500 if a server error occurs", async () => {
-    (pool.query as jest.Mock).mockRejectedValueOnce(new Error("Database error"));
+    (pool.query as jest.Mock).mockRejectedValueOnce(
+      new Error("Database error")
+    );
 
-    const response = await request(app)
-      .post("/link/shorten")
-      .send({
-        originalUrl: "https://example.com",
-      });
+    const response = await request(app).post("/link/shorten").send({
+      originalUrl: "https://example.com",
+    });
 
     expect(response.status).toBe(500);
     expect(response.body.success).toBe(false);
     expect(response.body.message).toBe("Server error");
+  });
+});
+
+describe("Get original URL", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("should redirect to the original URL if the short URL exists", async () => {
+    (pool.query as jest.Mock).mockResolvedValueOnce({
+      rows: [{ original_url: "https://example.com" }],
+    });
+
+    const response = await request(app).get("/link/abc123");
+
+    expect(response.status).toBe(302); // 302 is the status code for redirect
+    expect(response.header.location).toBe("https://example.com");
   });
 });
