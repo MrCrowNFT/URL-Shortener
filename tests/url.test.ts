@@ -106,4 +106,13 @@ describe("Get original URL", () => {
     expect(response.body.success).toBe(false);
     expect(response.body.message).toBe("Short URL not found");
   });
+  it("should return 500 if a server error occurs", async () => {
+    (pool.query as jest.Mock).mockRejectedValueOnce(new Error("Database error"));
+
+    const response = await request(app).get("/link/abc123");
+
+    expect(response.status).toBe(500);
+    expect(response.body.success).toBe(false);
+    expect(response.body.message).toBe("Server error");
+  });
 });
