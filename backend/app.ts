@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import urlRouter from "./routes/url.routes";
 
 const app = express();

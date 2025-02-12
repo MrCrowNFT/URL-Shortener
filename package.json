@@ -19,6 +19,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
     "typescript": "^5.7.3"
   },
   "name": "url-shortener",
@@ -26,7 +27,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node backend/server",
+    "dev": "ts-node backend/server.ts",
     "test": "jest"
   },
   "keywords": [],
