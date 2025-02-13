@@ -16,6 +16,8 @@ export const createPair = async (
     //get short url from helper function
     const shortUrl = getShortUrl();
 
+    console.log(`Shortening ${originalUrl} into ${shortUrl}`)
+
     if (!originalUrl || !shortUrl) {
       res.status(400).json({
         success: false,
@@ -34,6 +36,7 @@ export const createPair = async (
       });
       return;
     }
+    console.log("URL validated")
 
     const query = `
         INSERT INTO urls (original_url, short_url)
@@ -44,11 +47,14 @@ export const createPair = async (
     const values = [originalUrl, shortUrl];
     const result = await pool.query(query, values);
 
+    console.log("Pair added to database")
     // Return the inserted row so we can return it to the user
     res.status(201).json({
       success: true,
       message: "Pair successfully created",
-      data: result.rows[0],
+      data: {
+        shortUrl: result.rows[0].short_url, 
+      },
     });
   } catch (error) {
     console.error("Error inserting URL pair:", error);

@@ -8,15 +8,15 @@ const ShortenForm = () => {
   const [shortUrl, setShortUrl] = useState<string | null>(null);
 
   const shortenReq = async (url: string) => {
-    const res = await axios.post("http://localhost:5000/link/shorten", { url });
+    const res = await axios.post("http://localhost:5500/link/shorten", {originalUrl: url });
     return res.data;
   };
 
   const shortenMutation = useMutation({
     mutationFn: shortenReq,
     onSuccess: (data) => {
-      console.log("Shortened URL:", data.shortUrl);
-      setShortUrl(data.shortUrl); //set the short url to display it
+    console.log("Response data:", data); 
+    setShortUrl(data.data.short_url); 
     },
     onError: (error) => {
       console.error("Error:", error.message);

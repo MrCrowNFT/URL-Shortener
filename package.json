@@ -2,6 +2,7 @@
   "dependencies": {
     "@tanstack/react-query": "^5.66.0",
     "axios": "^1.7.9",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "pg": "^8.13.1",
@@ -10,6 +11,7 @@
   "devDependencies": {
     "@babel/core": "^7.26.8",
     "@jest/globals": "^29.7.0",
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.13.0",
