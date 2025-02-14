@@ -16,7 +16,7 @@ const ShortenForm = () => {
     mutationFn: shortenReq,
     onSuccess: (data) => {
     console.log("Response data:", data); 
-    setShortUrl(data.data.short_url); 
+    setShortUrl(data.data.shortUrl); 
     },
     onError: (error) => {
       console.error("Error:", error.message);
