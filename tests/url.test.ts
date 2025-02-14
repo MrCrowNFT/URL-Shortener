@@ -26,7 +26,7 @@ describe("URL Shortener API", () => {
 
     expect(response.status).toBe(201);
     expect(response.body.success).toBe(true);
-    expect(response.body.data.short_url).toBe("abc123");
+    expect(response.body.data.shortUrl).toBe("abc123");
 
     expect(pool.query).toHaveBeenCalledWith(
       expect.stringContaining("INSERT INTO urls"),
