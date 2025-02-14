@@ -56,12 +56,12 @@ const ShortenForm = () => {
       {/*Shorten url on conditional re render when not null */}
       {shortUrl && (
         <div className="mt-4 text-white">
-          <p>Shortened URL:</p>
+          <p className="font-mono">Shortened URL:</p>
           <a
             href={shortUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-green-400 underline"
+            className="text-green-400 underline font-mono"
           >
             {`http://localhost:5500/link/${shortUrl}`}
           </a>
